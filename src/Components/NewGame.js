@@ -129,7 +129,7 @@ export default class NewGame extends Component {
 					<tbody>
 						{this.renderScoreRow(scores)}
 						<tr >
-							<td>{index + 1} giờ</td>
+							<td>{index } giờ</td>
 							<td>0 mg/100ml
 							</td>
 						</tr>
