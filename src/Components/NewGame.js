@@ -58,7 +58,7 @@ export default class NewGame extends Component {
 			return (
 
 				scores[index] > 0 ? <tr key={index}>
-					<td> {index + 1} giờ</td>
+					<td> {index } giờ</td>
 					<td>{scores[index]} mg/100ml
 					</td>
 				</tr> :
