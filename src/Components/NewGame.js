@@ -34,15 +34,19 @@ export default class NewGame extends Component {
 		let row = this.state.rows;
 		for (let i = 0; i < 48; i++) {
 
-			row[i] = 0.79*1.056 * t - 0.015 * i;
+			row[i] = Math.round(0.79*1056 * t - 15 * i)/1000;
 			if (row[i] < 0) {
 				row[i] = 0;
 			}
+			
+			
 			row.push(row[i])
+			
 
 
 
 		}
+		console.log(row);
 		this.setState({ rows: row });
 
 
