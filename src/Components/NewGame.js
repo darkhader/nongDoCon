@@ -64,7 +64,7 @@ export default class NewGame extends Component {
 
 				scores[index] > 0 ? <tr key={index}>
 					<td> {index} giờ</td>
-					<td>{scores[index]} mg/100ml
+					<td>{scores[index]}mg/100ml
 					</td>
 					{scores[index] <= 50 ? <td>Mức 1
 					</td> : scores[index] > 50 && scores[index] < 80 ? <td>Mức 2
@@ -193,7 +193,7 @@ export default class NewGame extends Component {
 						{this.renderScoreRow(scores)}
 						{scores[48] === 0 ? <tr >
 							<td>{index} giờ</td>
-							<td>0 mg/100ml
+							<td>0mg/100ml
 							</td>
 							<td>An Toàn
 							</td>
