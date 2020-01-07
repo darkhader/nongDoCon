@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { Form, FormGroup, Input, Button, Table } from 'reactstrap';
+import React, { Component, useState } from 'react';
+import { Form, FormGroup, Input, Button, Table, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+
 
 
 export default class NewGame extends Component {
@@ -11,6 +12,7 @@ export default class NewGame extends Component {
 			nongDo: '',
 			canNang: '',
 			gioiTinh: 0.7,
+			modal: false,
 			rows: [],
 		}
 
@@ -18,6 +20,8 @@ export default class NewGame extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.renderScoreRow = this.renderScoreRow.bind(this);
 		this.handleSelectChange = this.handleSelectChange.bind(this);
+		this.handleModal = this.handleModal.bind(this);
+
 
 	}
 
@@ -25,28 +29,29 @@ export default class NewGame extends Component {
 
 		event.preventDefault();
 		const { litRuou, nongDo, canNang, gioiTinh } = this.state;
-		if(this.state.rows.length > 0){
+		if (this.state.rows.length > 0) {
 			this.state.rows.length = 0;
 		}
+
 		const n = litRuou * nongDo;
-		const m = canNang * gioiTinh;	
+		const m = canNang * gioiTinh;
 		const t = n / m;
 		let row = this.state.rows;
 		for (let i = 0; i < 48; i++) {
 
-			row[i] = Math.round(0.79*1056 * t - 15 * i)/1000;
+			row[i] = Math.round(0.79 * 1056 * t - 15 * i) / 1000;
 			if (row[i] < 0) {
 				row[i] = 0;
 			}
-			
-			
+
+
 			row.push(row[i])
-			
+
 
 
 
 		}
-		console.log(row);
+
 		this.setState({ rows: row });
 
 
@@ -58,7 +63,7 @@ export default class NewGame extends Component {
 			return (
 
 				scores[index] > 0 ? <tr key={index}>
-					<td> {index } giờ</td>
+					<td> {index} giờ</td>
 					<td>{scores[index]} mg/100ml
 					</td>
 				</tr> :
@@ -79,9 +84,17 @@ export default class NewGame extends Component {
 	handleSelectChange(event) {
 		this.setState({ gioiTinh: event.target.value });
 	}
+	handleModal(event) {
+
+		this.setState({ modal: !this.state.modal });
+
+	}
+
 	render() {
 		const scores = this.state.rows ? this.state.rows : "";
-		let index = scores.indexOf(0);
+		let index = scores.includes(NaN) ? "0" : scores.indexOf(0);
+
+
 		return (
 			<div className="container">
 				<Form onSubmit={this.handleSubmit}>
@@ -116,6 +129,47 @@ export default class NewGame extends Component {
 						</label>
 					</FormGroup>
 					<Button>Tính toán</Button>
+					<Button color="primary ml-2" onClick={this.handleModal}>Bảng Tra Cứu</Button>
+					<Modal className="modal-lg " isOpen={this.state.modal} toggle={this.handleModal} >
+						<ModalBody>
+							<Table striped bordered>
+								<thead>
+									<tr>
+										<th>Lỗi vi phạm</th>
+										<th>Xe máy</th>
+										<th>Ô tô</th>
+									</tr>
+
+								</thead>
+
+								<tbody>
+
+									<tr >
+										<td>Có nồng độ cồn nhưng chưa quá 50mg/100ml máu ~ 0.25mg/1l khí thở  </td>
+										<td>2.000.000 - 3.000.000. Tước GPLX 10 tháng - 12 tháng. </td>
+										<td>6.000.000 - 8.000.000. Tước GPLX 10 tháng - 12 tháng. </td>
+									</tr>
+									<tr >
+										<td>50mg-80mg/100ml máu ~ 0.25-0,4mg/1l khí thở </td>
+										<td>4.000.000 - 5.000.000. Tước GPLX 16 tháng - 18 tháng. </td>
+										<td>16.000.000 - 18.000.000. Tước GPLX 16 tháng - 18 tháng. </td>
+										
+									</tr>
+									<tr >
+										<td>Trên 80mg/100ml máu ~ 0.4mg/1l khí thở  </td>
+										<td>6.000.000 - 8.000.000. Tước GPLX 22  tháng - 24 tháng. </td>
+										<td>30.000.000 - 40.000.000. Tước GPLX 22  tháng - 24 tháng. </td>
+										
+									</tr>
+
+							
+								</tbody>
+							</Table>
+						</ModalBody>
+						<ModalFooter>
+							<Button color="secondary" onClick={this.handleModal}>Cancel</Button>
+						</ModalFooter>
+					</Modal>
 				</Form>
 				{scores.length > 0 ? <Table striped bordered>
 					<thead>
@@ -129,7 +183,7 @@ export default class NewGame extends Component {
 					<tbody>
 						{this.renderScoreRow(scores)}
 						<tr >
-							<td>{index } giờ</td>
+							<td>{index} giờ</td>
 							<td>0 mg/100ml
 							</td>
 						</tr>
