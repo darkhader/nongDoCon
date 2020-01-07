@@ -39,7 +39,7 @@ export default class NewGame extends Component {
 		let row = this.state.rows;
 		for (let i = 0; i < 48; i++) {
 
-			row[i] = Math.round(0.79 * 1056 * t - 15 * i) ;
+			row[i] = Math.round(0.79 * 1056 * t - 15 * i);
 			if (row[i] < 0) {
 				row[i] = 0;
 			}
@@ -66,6 +66,11 @@ export default class NewGame extends Component {
 					<td> {index} giờ</td>
 					<td>{scores[index]} mg/100ml
 					</td>
+					{scores[index] <= 50 ? <td>Mức 1
+					</td> : scores[index] > 50 && scores[index] < 80 ? <td>Mức 2
+					</td> : scores[index] > 80 ? <td>Mức 3
+					</td> : ""}
+
 				</tr> :
 					""
 
@@ -93,7 +98,6 @@ export default class NewGame extends Component {
 	render() {
 		const scores = this.state.rows ? this.state.rows : "";
 		let index = scores.includes(NaN) ? "0" : scores.indexOf(0);
-
 
 		return (
 			<div className="container">
@@ -135,6 +139,7 @@ export default class NewGame extends Component {
 							<Table striped bordered>
 								<thead>
 									<tr>
+										<th>Mức độ</th>
 										<th>Lỗi vi phạm</th>
 										<th>Xe máy</th>
 										<th>Ô tô</th>
@@ -145,24 +150,27 @@ export default class NewGame extends Component {
 								<tbody>
 
 									<tr >
+										<td>Mức 1 </td>
 										<td>Có nồng độ cồn nhưng chưa quá 50mg/100ml máu ~ 0.25mg/1l khí thở  </td>
 										<td>2.000.000 - 3.000.000. Tước GPLX 10 tháng - 12 tháng. </td>
 										<td>6.000.000 - 8.000.000. Tước GPLX 10 tháng - 12 tháng. </td>
 									</tr>
 									<tr >
+										<td>Mức 2  </td>
 										<td>50mg-80mg/100ml máu ~ 0.25-0,4mg/1l khí thở </td>
 										<td>4.000.000 - 5.000.000. Tước GPLX 16 tháng - 18 tháng. </td>
 										<td>16.000.000 - 18.000.000. Tước GPLX 16 tháng - 18 tháng. </td>
-										
+
 									</tr>
 									<tr >
+										<td>Mức 3 </td>
 										<td>Trên 80mg/100ml máu ~ 0.4mg/1l khí thở  </td>
 										<td>6.000.000 - 8.000.000. Tước GPLX 22  tháng - 24 tháng. </td>
 										<td>30.000.000 - 40.000.000. Tước GPLX 22  tháng - 24 tháng. </td>
-										
+
 									</tr>
 
-							
+
 								</tbody>
 							</Table>
 						</ModalBody>
@@ -176,17 +184,21 @@ export default class NewGame extends Component {
 						<tr>
 							<th>Sau</th>
 							<th>Nồng độ</th>
+							<th>Mức độ xử phạt</th>
 						</tr>
 
 					</thead>
 
 					<tbody>
 						{this.renderScoreRow(scores)}
-						<tr >
+						{scores[48] === 0 ? <tr >
 							<td>{index} giờ</td>
 							<td>0 mg/100ml
 							</td>
-						</tr>
+							<td>An Toàn
+							</td>
+						</tr> : ""}
+
 					</tbody>
 				</Table> : ""}
 
